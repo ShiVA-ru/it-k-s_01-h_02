@@ -1,21 +1,24 @@
 import express, { Express } from "express";
-import { videosRouter } from "./videos/videos.router";
 import { testingRouter } from "./testing/testing.router";
+import { blogsRouter } from "./features/blogs/routers/blogs.router";
+// import { postsRouter } from "./features/posts/routers/posts.router";
 
 export const RouterPath = {
-  videos: "/videos",
+  blogs: "/blogs",
+  posts: "/posts",
   testing: "/testing",
 };
 
 export const setupApp = (app: Express) => {
-  app.use(express.json()); // middleware для парсинга JSON в теле запроса
+  app.use(express.json());
 
   // основной роут
   app.get("/", (req, res) => {
     res.status(200).send("Hello world!");
   });
 
-  app.use(RouterPath.videos, videosRouter);
+  app.use(RouterPath.blogs, blogsRouter);
+  // app.use(RouterPath.posts, postsRouter);
   app.use(RouterPath.testing, testingRouter);
 
   return app;
