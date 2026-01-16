@@ -9,7 +9,7 @@ import { HttpStatus } from "../../../../core/types/http-statuses";
 import { createErrorMessages } from "../../../../core/utils/error.utils";
 import { BlogDbModel } from "../../models/BlogDbModel";
 
-export function updatePostHandler(
+export function updateBlogHandler(
   req: RequestWithParamsAndBody<URIParamsBlogIdModel, BlogInputModel>,
   res: Response<BlogViewModel | ApiErrorResult>,
 ) {
@@ -19,7 +19,7 @@ export function updatePostHandler(
   if (index === -1) {
     res
       .status(HttpStatus.NotFound)
-      .send(createErrorMessages([{ field: "id", message: "Video not found" }]));
+      .send(createErrorMessages([{ field: "id", message: "Blog not found" }]));
     return;
   }
 

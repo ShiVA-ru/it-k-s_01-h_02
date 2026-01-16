@@ -4,5 +4,5 @@ export type PostDbModel = {
   shortDescription: string;
   content: string;
   blogId: string;
-  blogName: string;
+  blogName: string; //убрать поле из БД
 };
