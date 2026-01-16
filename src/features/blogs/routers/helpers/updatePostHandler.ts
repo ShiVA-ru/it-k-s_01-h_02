@@ -7,6 +7,7 @@ import { ApiErrorResult } from "../../../../core/types/errors";
 import { db } from "../../../../db/in-memory.db";
 import { HttpStatus } from "../../../../core/types/http-statuses";
 import { createErrorMessages } from "../../../../core/utils/error.utils";
+import { BlogDbModel } from "../../models/BlogDbModel";
 
 export function updatePostHandler(
   req: RequestWithParamsAndBody<URIParamsBlogIdModel, BlogInputModel>,
@@ -24,7 +25,7 @@ export function updatePostHandler(
 
   const entity = db.blogs[index];
 
-  const updatedEntity = {
+  const updatedEntity: BlogDbModel = {
     ...entity,
     ...req.body,
     id: entity.id,

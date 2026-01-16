@@ -1,13 +1,20 @@
-// import { app } from "../blogs.api.spec";
-import { app } from "../../../src/index";
-import { RouterPath } from "../../../src/setup-app";
-import { BlogInputModel } from "../../../src/features/blogs/models/BlogInputModel";
+import express, { Express } from "express";
 import request from "supertest";
+import { setupApp } from "../../../src/setup-app";
+import { BlogInputModel } from "../../../src/features/blogs/models/BlogInputModel";
 import { HttpStatus } from "../../../src/core/types/http-statuses";
 import { HttpStatusType } from "../../../src/core/types/http-statuses";
+import { RouterPath } from "../../../src/core/constants";
 
 export const blogsTestManager = {
+  initApp() {
+    const app = express();
+    setupApp(app);
+
+    return app;
+  },
   async createEntity(
+    app: Express,
     data: BlogInputModel,
     expectedStatusCode: HttpStatusType = HttpStatus.Created,
   ) {

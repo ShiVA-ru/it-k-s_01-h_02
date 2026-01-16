@@ -4,7 +4,7 @@ import { URIParamsBlogIdModel } from "../../models/URIParamsBlogModel";
 import { BlogViewModel } from "../../models/BlogViewModel";
 import { db } from "../../../../db/in-memory.db";
 import { HttpStatus } from "../../../../core/types/http-statuses";
-import { mapEntityToViewModel } from "./mapEntityToViewModel";
+import { mapEntityToViewModel } from "../mappers/mapEntityToViewModel";
 
 export function getBlogHandler(
   req: RequestWithParams<URIParamsBlogIdModel>,

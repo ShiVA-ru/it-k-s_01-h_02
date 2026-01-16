@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { BlogViewModel } from "../../models/BlogViewModel";
 import { HttpStatus } from "../../../../core/types/http-statuses";
 import { db } from "../../../../db/in-memory.db";
-import { mapEntityToViewModel } from "./mapEntityToViewModel";
+import { mapEntityToViewModel } from "../mappers/mapEntityToViewModel";
+import { BlogViewModel } from "../../models/BlogViewModel";
 
 export function getBlogListHandler(
   req: Request,

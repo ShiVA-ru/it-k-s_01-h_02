@@ -1,16 +1,18 @@
+import { Express } from "express";
 import request from "supertest";
-import { app } from "../../src/index";
-// import express from "express";
-import { RouterPath, setupApp } from "../../src/setup-app";
 import { HttpStatus } from "../../src/core/types/http-statuses";
 import { blogsTestManager } from "./utils/BlogsTestManager";
 import { BlogInputModel } from "../../src/features/blogs/models/BlogInputModel";
 import { BlogViewModel } from "../../src/features/blogs/models/BlogViewModel";
-
-// export const app = express();
+import { RouterPath } from "../../src/core/constants";
 
 describe("tests for /blogs", () => {
+  let app: Express;
+  let createdEntity1: BlogViewModel;
+  let createdEntity2: BlogViewModel;
+
   beforeAll(async () => {
+    app = blogsTestManager.initApp();
     await request(app).delete(`${RouterPath.testing}/all-data`);
   });
 
@@ -34,9 +36,6 @@ describe("tests for /blogs", () => {
   //   await request(app).get(RouterPath.blogs).expect(HttpStatus.Ok, []);
   // });
 
-  let createdEntity1: BlogViewModel;
-  let createdEntity2: BlogViewModel;
-
   it("should create entity with correct data", async () => {
     const data: BlogInputModel = {
       name: "Name1",
@@ -44,7 +43,7 @@ describe("tests for /blogs", () => {
       websiteUrl: "https://rogaikopyta.com",
     };
 
-    const { createdEntity } = await blogsTestManager.createEntity(data);
+    const { createdEntity } = await blogsTestManager.createEntity(app, data);
 
     createdEntity1 = createdEntity;
 
@@ -58,7 +57,7 @@ describe("tests for /blogs", () => {
       websiteUrl: "https://rogaikopyta.com",
     };
 
-    const { createdEntity } = await blogsTestManager.createEntity(data);
+    const { createdEntity } = await blogsTestManager.createEntity(app, data);
 
     createdEntity2 = createdEntity;
 

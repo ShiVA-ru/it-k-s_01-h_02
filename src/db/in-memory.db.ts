@@ -1,9 +1,9 @@
-import { BlogViewModel } from "../features/blogs/models/BlogViewModel";
-import { PostViewModel } from "../features/posts/models/PostViewModel";
+import { BlogDbModel } from "../features/blogs/models/BlogDbModel";
+import { PostDbModel } from "../features/posts/models/PostDbModel";
 
 export type DBType = {
-  blogs: BlogViewModel[];
-  posts: PostViewModel[];
+  blogs: BlogDbModel[];
+  posts: PostDbModel[];
 };
 
 export const db: DBType = {

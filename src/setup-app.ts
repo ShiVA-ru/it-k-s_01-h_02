@@ -1,13 +1,8 @@
 import express, { Express } from "express";
 import { testingRouter } from "./testing/testing.router";
 import { blogsRouter } from "./features/blogs/routers/blogs.router";
+import { RouterPath } from "./core/constants";
 // import { postsRouter } from "./features/posts/routers/posts.router";
-
-export const RouterPath = {
-  blogs: "/blogs",
-  posts: "/posts",
-  testing: "/testing",
-};
 
 export const setupApp = (app: Express) => {
   app.use(express.json());
