@@ -24,6 +24,11 @@ export function createPostHandler(
 
   const createdEntity = postsRepository.create(req.body);
 
+  //Добавить валидацию и отправку ошибки
+  // if (!createdEntity) {
+  // return res.status(HttpStatus.BadRequest).json({ errorsMessages: [{ message: 'Invalid input', field: 'title' }] });
+  // }
+
   res
     .status(HttpStatus.Created)
     .json(mapEntityToViewModel(createdEntity, blogEntity.name));

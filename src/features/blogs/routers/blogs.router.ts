@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { createBlogHandler } from "./helpers/createBlogHandler";
-import { getBlogListHandler } from "./helpers/getBlogListHandler";
-import { getBlogHandler } from "./helpers/getBlogHandler";
-import { updateBlogHandler } from "./helpers/updateBlogHandler";
-import { deleteBlogHandler } from "./helpers/deleteBlogHandler";
+import { createBlogHandler } from "./handlers/createBlogHandler";
+import { getBlogListHandler } from "./handlers/getBlogListHandler";
+import { getBlogHandler } from "./handlers/getBlogHandler";
+import { updateBlogHandler } from "./handlers/updateBlogHandler";
+import { deleteBlogHandler } from "./handlers/deleteBlogHandler";
 
 export const blogsRouter = Router();
 

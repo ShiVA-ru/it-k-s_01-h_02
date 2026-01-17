@@ -18,11 +18,13 @@ export function updateBlogHandler(
   const isUpdated = blogsRepository.updateById(id, req.body);
 
   if (!isUpdated) {
-    res
-      .status(HttpStatus.NotFound)
-      .send(createErrorMessages([{ field: "id", message: "Blog not found" }]));
+    res.sendStatus(HttpStatus.NotFound);
     return;
   }
+  //Добавить валидацию и отправку ошибки
+  // if (!createdEntity) {
+  // return res.status(HttpStatus.BadRequest).json({ errorsMessages: [{ message: 'Invalid input', field: 'title' }] });
+  // }
 
   res.sendStatus(HttpStatus.NoContent);
 }

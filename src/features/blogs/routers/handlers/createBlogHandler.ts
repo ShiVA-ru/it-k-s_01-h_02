@@ -13,5 +13,11 @@ export function createBlogHandler(
   res: Response<BlogViewModel | ApiErrorResult>,
 ) {
   const createdEntity = blogsRepository.create(req.body);
+
+  //Добавить валидацию и отправку ошибки
+  // if (!createdEntity) {
+  // return res.status(HttpStatus.BadRequest).json({ errorsMessages: [{ message: 'Invalid input', field: 'name' }] });
+  // }
+
   res.status(HttpStatus.Created).json(mapEntityToViewModel(createdEntity));
 }

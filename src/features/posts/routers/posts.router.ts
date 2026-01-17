@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { createPostHandler } from "./helpers/createPostHandler";
-import { getPostListHandler } from "./helpers/getPostListHandler";
-import { getPostHandler } from "./helpers/getPostHandler";
-import { updatePostHandler } from "./helpers/updatePostHandler";
-import { deletePostHandler } from "./helpers/deletePostHandler";
+import { createPostHandler } from "./handlers/createPostHandler";
+import { getPostListHandler } from "./handlers/getPostListHandler";
+import { getPostHandler } from "./handlers/getPostHandler";
+import { updatePostHandler } from "./handlers/updatePostHandler";
+import { deletePostHandler } from "./handlers/deletePostHandler";
 
 export const PostsRouter = Router();
 

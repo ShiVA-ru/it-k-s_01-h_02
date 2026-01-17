@@ -16,9 +16,7 @@ export function getPostHandler(
   const findEntity = postsRepository.findOneById(id);
 
   if (!findEntity) {
-    res.status(HttpStatus.NotFound).json({
-      errorsMessages: [{ message: "Post not found", field: "postId" }],
-    });
+    res.sendStatus(HttpStatus.NotFound);
     return;
   }
   const blogEntity = blogsRepository.findOneById(findEntity.blogId);

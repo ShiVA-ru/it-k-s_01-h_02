@@ -14,9 +14,8 @@ export function deleteBlogHandler(
   const blog = blogsRepository.findOneById(id);
 
   if (!blog) {
-    res
-      .status(HttpStatus.NotFound)
-      .send(createErrorMessages([{ field: "id", message: "Blog not found" }]));
+    res.sendStatus(HttpStatus.NotFound);
+
     return;
   }
 
