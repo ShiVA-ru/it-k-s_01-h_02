@@ -4,34 +4,25 @@ import { URIParamsPostIdModel } from "../../models/URIParamsPostModel";
 import { PostInputModel } from "../../models/PostInputModel";
 import { PostViewModel } from "../../models/PostViewModel";
 import { ApiErrorResult } from "../../../../core/types/errors";
-import { db } from "../../../../db/in-memory.db";
 import { HttpStatus } from "../../../../core/types/http-statuses";
 import { createErrorMessages } from "../../../../core/utils/error.utils";
-import { PostDbModel } from "../../models/PostDbModel";
+import { postsRepository } from "../../repositories/posts.repository";
 
 export function updatePostHandler(
   req: RequestWithParamsAndBody<URIParamsPostIdModel, PostInputModel>,
   res: Response<PostViewModel | ApiErrorResult>,
 ) {
   const id = String(req.params.id);
-  const index = db.posts.findIndex((post) => post.id === id);
+  const findEntity = postsRepository.findOneById(id);
 
-  if (index === -1) {
+  if (!findEntity) {
     res
       .status(HttpStatus.NotFound)
       .send(createErrorMessages([{ field: "id", message: "Post not found" }]));
     return;
   }
 
-  const entity = db.posts[index];
-
-  const updatedEntity: PostDbModel = {
-    ...entity,
-    ...req.body,
-    id: entity.id,
-  };
-
-  db.posts[index] = updatedEntity;
+  postsRepository.updateById(id, req.body);
 
   res.sendStatus(HttpStatus.NoContent);
 }
