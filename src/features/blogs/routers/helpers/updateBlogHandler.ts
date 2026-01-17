@@ -8,30 +8,21 @@ import { db } from "../../../../db/in-memory.db";
 import { HttpStatus } from "../../../../core/types/http-statuses";
 import { createErrorMessages } from "../../../../core/utils/error.utils";
 import { BlogDbModel } from "../../models/BlogDbModel";
+import { blogsRepository } from "../../repositories/blogs.repository";
 
 export function updateBlogHandler(
   req: RequestWithParamsAndBody<URIParamsBlogIdModel, BlogInputModel>,
   res: Response<BlogViewModel | ApiErrorResult>,
 ) {
   const id = String(req.params.id);
-  const index = db.blogs.findIndex((blog) => blog.id === id);
+  const isUpdated = blogsRepository.updateById(id, req.body);
 
-  if (index === -1) {
+  if (!isUpdated) {
     res
       .status(HttpStatus.NotFound)
       .send(createErrorMessages([{ field: "id", message: "Blog not found" }]));
     return;
   }
-
-  const entity = db.blogs[index];
-
-  const updatedEntity: BlogDbModel = {
-    ...entity,
-    ...req.body,
-    id: entity.id,
-  };
-
-  db.blogs[index] = updatedEntity;
 
   res.sendStatus(HttpStatus.NoContent);
 }

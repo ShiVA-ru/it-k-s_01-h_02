@@ -3,10 +3,12 @@ import { HttpStatus } from "../../../../core/types/http-statuses";
 import { db } from "../../../../db/in-memory.db";
 import { mapEntityToViewModel } from "../mappers/mapEntityToViewModel";
 import { BlogViewModel } from "../../models/BlogViewModel";
+import { blogsRepository } from "../../repositories/blogs.repository";
 
 export function getBlogListHandler(
   req: Request,
   res: Response<BlogViewModel[]>,
 ) {
-  res.status(HttpStatus.Ok).json(db.blogs.map(mapEntityToViewModel));
+  const findBlogs = blogsRepository.findAll();
+  res.status(HttpStatus.Ok).json(findBlogs.map(mapEntityToViewModel));
 }
