@@ -3,6 +3,7 @@ import { RequestWithParams } from "../../../../core/types/request-types";
 import { URIParamsBlogIdModel } from "../../models/URIParamsBlogModel";
 import { HttpStatus } from "../../../../core/types/http-statuses";
 import { blogsRepository } from "../../repositories/blogs.repository";
+import { createErrorMessages } from "../../../../core/utils/error.utils";
 
 export function deleteBlogHandler(
   req: RequestWithParams<URIParamsBlogIdModel>,
@@ -13,8 +14,9 @@ export function deleteBlogHandler(
   const blog = blogsRepository.findOneById(id);
 
   if (!blog) {
-    res.sendStatus(HttpStatus.NotFound);
-
+    res
+      .status(HttpStatus.NotFound)
+      .send(createErrorMessages([{ field: "id", message: "Blog not found" }]));
     return;
   }
 

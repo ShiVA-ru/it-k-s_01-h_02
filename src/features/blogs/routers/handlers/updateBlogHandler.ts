@@ -3,25 +3,24 @@ import { RequestWithParamsAndBody } from "../../../../core/types/request-types";
 import { URIParamsBlogIdModel } from "../../models/URIParamsBlogModel";
 import { BlogInputModel } from "../../models/BlogInputModel";
 import { BlogViewModel } from "../../models/BlogViewModel";
-import { ApiErrorResult } from "../../../../core/types/errors";
+import { validationErrorsDto } from "../../../../core/types/errors";
 import { HttpStatus } from "../../../../core/types/http-statuses";
 import { blogsRepository } from "../../repositories/blogs.repository";
+import { createErrorMessages } from "../../../../core/middlewares/input-validtion-result.middleware";
 
 export function updateBlogHandler(
   req: RequestWithParamsAndBody<URIParamsBlogIdModel, BlogInputModel>,
-  res: Response<BlogViewModel | ApiErrorResult>,
+  res: Response<BlogViewModel | validationErrorsDto>,
 ) {
   const id = String(req.params.id);
   const isUpdated = blogsRepository.updateById(id, req.body);
 
   if (!isUpdated) {
-    res.sendStatus(HttpStatus.NotFound);
+    res
+      .status(HttpStatus.NotFound)
+      .send(createErrorMessages([{ field: "id", message: "Blog not found" }]));
     return;
   }
-  //Добавить валидацию и отправку ошибки
-  // if (!createdEntity) {
-  // return res.status(HttpStatus.BadRequest).json({ errorsMessages: [{ message: 'Invalid input', field: 'title' }] });
-  // }
 
   res.sendStatus(HttpStatus.NoContent);
 }

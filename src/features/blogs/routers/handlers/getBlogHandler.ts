@@ -5,16 +5,20 @@ import { BlogViewModel } from "../../models/BlogViewModel";
 import { HttpStatus } from "../../../../core/types/http-statuses";
 import { mapEntityToViewModel } from "../mappers/mapEntityToViewModel";
 import { blogsRepository } from "../../repositories/blogs.repository";
+import { validationErrorsDto } from "../../../../core/types/errors";
+import { createErrorMessages } from "../../../../core/middlewares/input-validtion-result.middleware";
 
 export function getBlogHandler(
   req: RequestWithParams<URIParamsBlogIdModel>,
-  res: Response<BlogViewModel>,
+  res: Response<BlogViewModel | validationErrorsDto>,
 ) {
   const id = String(req.params.id);
   const findEntity = blogsRepository.findOneById(id);
 
   if (!findEntity) {
-    res.sendStatus(HttpStatus.NotFound);
+    res
+      .status(HttpStatus.NotFound)
+      .send(createErrorMessages([{ field: "id", message: "Blog not found" }]));
     return;
   }
 
