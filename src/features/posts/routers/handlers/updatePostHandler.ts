@@ -3,26 +3,24 @@ import { RequestWithParamsAndBody } from "../../../../core/types/request-types";
 import { URIParamsPostIdModel } from "../../models/URIParamsPostModel";
 import { PostInputModel } from "../../models/PostInputModel";
 import { PostViewModel } from "../../models/PostViewModel";
-import { ApiErrorResult } from "../../../../core/types/errors";
+import { validationErrorsDto } from "../../../../core/types/errors";
 import { HttpStatus } from "../../../../core/types/http-statuses";
 import { postsRepository } from "../../repositories/posts.repository";
+import { createErrorMessages } from "../../../../core/middlewares/input-validtion-result.middleware";
 
 export function updatePostHandler(
   req: RequestWithParamsAndBody<URIParamsPostIdModel, PostInputModel>,
-  res: Response<PostViewModel | ApiErrorResult>,
+  res: Response<PostViewModel | validationErrorsDto>,
 ) {
   const id = String(req.params.id);
-  const findEntity = postsRepository.findOneById(id);
+  const isUpdated = postsRepository.updateById(id, req.body);
 
-  if (!findEntity) {
-    res.sendStatus(HttpStatus.NotFound);
+  if (!isUpdated) {
+    res
+      .status(HttpStatus.NotFound)
+      .send(createErrorMessages([{ field: "id", message: "Post not found" }]));
     return;
   }
 
-  postsRepository.updateById(id, req.body);
-  //Добавить валидацию и отправку ошибки
-  // if (!createdEntity) {
-  // return res.status(HttpStatus.BadRequest).json({ errorsMessages: [{ message: 'Invalid input', field: 'title' }] });
-  // }
   res.sendStatus(HttpStatus.NoContent);
 }

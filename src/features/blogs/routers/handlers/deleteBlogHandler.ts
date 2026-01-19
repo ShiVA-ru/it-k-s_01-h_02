@@ -3,7 +3,7 @@ import { RequestWithParams } from "../../../../core/types/request-types";
 import { URIParamsBlogIdModel } from "../../models/URIParamsBlogModel";
 import { HttpStatus } from "../../../../core/types/http-statuses";
 import { blogsRepository } from "../../repositories/blogs.repository";
-import { createErrorMessages } from "../../../../core/utils/error.utils";
+import { createErrorMessages } from "../../../../core/middlewares/input-validtion-result.middleware";
 
 export function deleteBlogHandler(
   req: RequestWithParams<URIParamsBlogIdModel>,

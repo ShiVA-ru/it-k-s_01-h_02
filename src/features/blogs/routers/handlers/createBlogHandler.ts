@@ -11,9 +11,6 @@ export function createBlogHandler(
   req: RequestWithBody<BlogInputModel>,
   res: Response<BlogViewModel>,
 ) {
-  // const result = validationResult(req).array({ onlyFirstError: true });
-  const result = validationResult(req).array();
-  console.log(result);
   const createdEntity = blogsRepository.create(req.body);
 
   res.status(HttpStatus.Created).json(mapEntityToViewModel(createdEntity));

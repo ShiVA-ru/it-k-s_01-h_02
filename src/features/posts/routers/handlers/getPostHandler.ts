@@ -5,12 +5,13 @@ import { PostViewModel } from "../../models/PostViewModel";
 import { HttpStatus } from "../../../../core/types/http-statuses";
 import { mapEntityToViewModel } from "../mappers/mapEntityToViewModel";
 import { blogsRepository } from "../../../blogs/repositories/blogs.repository";
-import { ApiErrorResult } from "../../../../core/types/errors";
+import { validationErrorsDto } from "../../../../core/types/errors";
 import { postsRepository } from "../../repositories/posts.repository";
+import { createErrorMessages } from "../../../../core/middlewares/input-validtion-result.middleware";
 
 export function getPostHandler(
   req: RequestWithParams<URIParamsPostIdModel>,
-  res: Response<PostViewModel | ApiErrorResult>,
+  res: Response<PostViewModel | validationErrorsDto>,
 ) {
   const id = String(req.params.id);
   const findEntity = postsRepository.findOneById(id);
@@ -22,9 +23,9 @@ export function getPostHandler(
   const blogEntity = blogsRepository.findOneById(findEntity.blogId);
 
   if (!blogEntity) {
-    res.status(HttpStatus.NotFound).json({
-      errorsMessages: [{ message: "Blog not found", field: "blogId" }],
-    });
+    res
+      .status(HttpStatus.NotFound)
+      .send(createErrorMessages([{ field: "id", message: "Post not found" }]));
     return;
   }
 

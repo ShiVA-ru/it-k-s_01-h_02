@@ -4,6 +4,9 @@ import { getPostListHandler } from "./handlers/getPostListHandler";
 import { getPostHandler } from "./handlers/getPostHandler";
 import { updatePostHandler } from "./handlers/updatePostHandler";
 import { deletePostHandler } from "./handlers/deletePostHandler";
+import { idValidation } from "../../../core/middlewares/params-id.validation-middleware";
+import { inputValidationResultMiddleware } from "../../../core/middlewares/input-validtion-result.middleware";
+import { blogInputDtoValidation } from "../validation/posts.input-dto.validation-middleware";
 
 export const PostsRouter = Router();
 
@@ -11,12 +14,24 @@ export const PostsRouter = Router();
 
 PostsRouter
   //CREATE
-  .post("/", createPostHandler)
+  .post(
+    "/",
+    idValidation,
+    blogInputDtoValidation,
+    inputValidationResultMiddleware,
+    createPostHandler,
+  )
   //READ
   .get("/", getPostListHandler)
 
-  .get("/:id", getPostHandler)
+  .get("/:id", idValidation, getPostHandler)
   //UPDATE
-  .put("/:id", updatePostHandler)
+  .put(
+    "/:id",
+    idValidation,
+    blogInputDtoValidation,
+    inputValidationResultMiddleware,
+    updatePostHandler,
+  )
   //DELETE
-  .delete("/:id", deletePostHandler);
+  .delete("/:id", idValidation, deletePostHandler);
