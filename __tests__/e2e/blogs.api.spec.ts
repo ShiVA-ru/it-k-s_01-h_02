@@ -24,23 +24,23 @@ describe("tests for /blogs", () => {
     await request(app).get(`${RouterPath.blogs}/939`).expect(404);
   });
 
-  // it("shouldn't create entity with incorrect data", async () => {
-  //   const data: BlogInputModel = {
-  //     name: "Name",
-  //     description: "string",
-  //     websiteUrl: "https://rogaikopyta.com",
-  //   };
+  it("shouldn't create entity with incorrect data", async () => {
+    const data: BlogInputModel = {
+      name: "",
+      description: "string",
+      websiteUrl: "https://www.rogaikopyta.com",
+    };
 
-  //   await blogsTestManager.createEntity(data, HttpStatus.BadRequest);
+    await blogsTestManager.createEntity(app, data, HttpStatus.BadRequest);
 
-  //   await request(app).get(RouterPath.blogs).expect(HttpStatus.Ok, []);
-  // });
+    await request(app).get(RouterPath.blogs).expect(HttpStatus.Ok, []);
+  });
 
   it("should create entity with correct data", async () => {
     const data: BlogInputModel = {
       name: "Name1",
       description: "string",
-      websiteUrl: "https://rogaikopyta.com",
+      websiteUrl: "https://www.rogaikopyta.com",
     };
 
     const { createdEntity } = await blogsTestManager.createEntity(app, data);
@@ -54,7 +54,7 @@ describe("tests for /blogs", () => {
     const data: BlogInputModel = {
       name: "Name1",
       description: "string",
-      websiteUrl: "https://rogaikopyta.com",
+      websiteUrl: "https://www.rogaikopyta.com",
     };
 
     const { createdEntity } = await blogsTestManager.createEntity(app, data);
@@ -67,13 +67,10 @@ describe("tests for /blogs", () => {
   });
 
   // it("shouldn't update entity with incorrect title length less than 1", async () => {
-  //   const data: UpdateVideoModel = {
-  //     title: "",
-  //     author: "New Author",
-  //     canBeDownloaded: true,
-  //     minAgeRestriction: 12,
-  //     publicationDate: new Date().toISOString(),
-  //     availableResolutions: [VideoResolutions.P1080, VideoResolutions.P1440],
+  //   const data: BlogInputModel = {
+  //     name: "Name1",
+  //     description: "string",
+  //     websiteUrl: "https://www.rogaikopyta.com",
   //   };
 
   //   await request(app)
@@ -87,7 +84,7 @@ describe("tests for /blogs", () => {
   // });
 
   // it("shouldn't update entity with incorrect title length more than 40", async () => {
-  //   const data: UpdateVideoModel = {
+  //   const data: BlogInputModel = {
   //     title: "videovideovideovideovideovideovideovideovideovideo",
   //     author: "New Author",
   //     canBeDownloaded: true,
@@ -107,7 +104,7 @@ describe("tests for /blogs", () => {
   // });
 
   // it("shouldn't update entity with incorrect author length less than 1", async () => {
-  //   const data: UpdateVideoModel = {
+  //   const data: BlogInputModel = {
   //     title: "video",
   //     author: "",
   //     canBeDownloaded: true,
@@ -127,7 +124,7 @@ describe("tests for /blogs", () => {
   // });
 
   // it("shouldn't update entity with incorrect author length more than 20", async () => {
-  //   const data: UpdateVideoModel = {
+  //   const data: BlogInputModel = {
   //     title: "video",
   //     author: "AuthorAuthorAuthorAuthor",
   //     canBeDownloaded: true,
@@ -147,7 +144,7 @@ describe("tests for /blogs", () => {
   // });
 
   // it("shouldn't update entity with incorrect minAgeRestriction less than 1", async () => {
-  //   const data: UpdateVideoModel = {
+  //   const data: BlogInputModel = {
   //     title: "video",
   //     author: "Author",
   //     canBeDownloaded: true,
@@ -167,7 +164,7 @@ describe("tests for /blogs", () => {
   // });
 
   // it("shouldn't update entity with incorrect minAgeRestriction more than 18", async () => {
-  //   const data: UpdateVideoModel = {
+  //   const data: BlogInputModel = {
   //     title: "video",
   //     author: "Author",
   //     canBeDownloaded: true,
@@ -187,7 +184,7 @@ describe("tests for /blogs", () => {
   // });
 
   // it("shouldn't update entity with incorrect publicationDate", async () => {
-  //   const data: UpdateVideoModel = {
+  //   const data: BlogInputModel = {
   //     title: "video",
   //     author: "Author",
   //     canBeDownloaded: true,
@@ -207,7 +204,7 @@ describe("tests for /blogs", () => {
   // });
 
   // it("shouldn't update entity with incorrect availableResolutions length less than 1", async () => {
-  //   const data: UpdateVideoModel = {
+  //   const data: BlogInputModel = {
   //     title: "video",
   //     author: "Author",
   //     canBeDownloaded: true,
@@ -227,7 +224,7 @@ describe("tests for /blogs", () => {
   // });
 
   // it("shouldn't update entity that not exist", async () => {
-  //   const data: UpdateVideoModel = {
+  //   const data: BlogInputModel = {
   //     title: "Title",
   //     author: "New Author",
   //     canBeDownloaded: true,
@@ -242,7 +239,7 @@ describe("tests for /blogs", () => {
   // });
 
   // it("should update entity with correct input data", async () => {
-  //   const data: UpdateVideoModel = {
+  //   const data: BlogInputModel = {
   //     title: "Title",
   //     author: "New Author",
   //     canBeDownloaded: true,

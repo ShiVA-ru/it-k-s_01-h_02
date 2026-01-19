@@ -4,10 +4,7 @@ import { URIParamsBlogIdModel } from "../../models/URIParamsBlogModel";
 import { BlogInputModel } from "../../models/BlogInputModel";
 import { BlogViewModel } from "../../models/BlogViewModel";
 import { ApiErrorResult } from "../../../../core/types/errors";
-import { db } from "../../../../db/in-memory.db";
 import { HttpStatus } from "../../../../core/types/http-statuses";
-import { createErrorMessages } from "../../../../core/utils/error.utils";
-import { BlogDbModel } from "../../models/BlogDbModel";
 import { blogsRepository } from "../../repositories/blogs.repository";
 
 export function updateBlogHandler(

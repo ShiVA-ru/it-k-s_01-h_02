@@ -1,8 +1,8 @@
-export type FieldError = {
+export type validationErrorType = {
   field: string | null;
   message: string | null;
 };
 
-export type ApiErrorResult = {
-  errorsMessages: FieldError[] | null;
+export type validationErrorsDto = {
+  errorsMessages: validationErrorType[] | null;
 };

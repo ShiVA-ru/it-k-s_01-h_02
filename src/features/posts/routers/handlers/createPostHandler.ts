@@ -2,7 +2,6 @@ import { Response } from "express";
 import { RequestWithBody } from "../../../../core/types/request-types";
 import { ApiErrorResult } from "../../../../core/types/errors";
 import { HttpStatus } from "../../../../core/types/http-statuses";
-// import { createErrorMessages } from '../../../../core/utils/error.utils';
 import { mapEntityToViewModel } from "../mappers/mapEntityToViewModel";
 import { PostInputModel } from "../../models/PostInputModel";
 import { PostViewModel } from "../../models/PostViewModel";
