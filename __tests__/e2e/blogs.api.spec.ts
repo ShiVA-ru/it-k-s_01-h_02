@@ -66,42 +66,39 @@ describe("tests for /blogs", () => {
       .expect(HttpStatus.Ok, [createdEntity1, createdEntity2]);
   });
 
-  // it("shouldn't update entity with incorrect title length less than 1", async () => {
-  //   const data: BlogInputModel = {
-  //     name: "Name1",
-  //     description: "string",
-  //     websiteUrl: "https://www.rogaikopyta.com",
-  //   };
+  it("shouldn't update entity with incorrect description length less than 1", async () => {
+    const data: BlogInputModel = {
+      name: "Name1",
+      description: "",
+      websiteUrl: "https://www.rogaikopyta.com",
+    };
 
-  //   await request(app)
-  //     .put(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .send(data)
-  //     .expect(HttpStatus.BadRequest);
+    await request(app)
+      .put(`${RouterPath.blogs}/${createdEntity1.id}`)
+      .send(data)
+      .expect(HttpStatus.BadRequest);
 
-  //   await request(app)
-  //     .get(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .expect(HttpStatus.Ok, createdEntity1);
-  // });
+    await request(app)
+      .get(`${RouterPath.blogs}/${createdEntity1.id}`)
+      .expect(HttpStatus.Ok, createdEntity1);
+  });
 
-  // it("shouldn't update entity with incorrect title length more than 40", async () => {
-  //   const data: BlogInputModel = {
-  //     title: "videovideovideovideovideovideovideovideovideovideo",
-  //     author: "New Author",
-  //     canBeDownloaded: true,
-  //     minAgeRestriction: 12,
-  //     publicationDate: new Date().toISOString(),
-  //     availableResolutions: [VideoResolutions.P1080, VideoResolutions.P1440],
-  //   };
+  it("shouldn't update entity with incorrect name length more than 15", async () => {
+    const data: BlogInputModel = {
+      name: "Name1Name1Name1Name1Name1",
+      description: "",
+      websiteUrl: "https://www.rogaikopyta.com",
+    };
 
-  //   await request(app)
-  //     .put(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .send(data)
-  //     .expect(HttpStatus.BadRequest);
+    await request(app)
+      .put(`${RouterPath.blogs}/${createdEntity1.id}`)
+      .send(data)
+      .expect(HttpStatus.BadRequest);
 
-  //   await request(app)
-  //     .get(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .expect(HttpStatus.Ok, createdEntity1);
-  // });
+    await request(app)
+      .get(`${RouterPath.blogs}/${createdEntity1.id}`)
+      .expect(HttpStatus.Ok, createdEntity1);
+  });
 
   // it("shouldn't update entity with incorrect author length less than 1", async () => {
   //   const data: BlogInputModel = {
