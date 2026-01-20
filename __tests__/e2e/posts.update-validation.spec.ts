@@ -31,14 +31,6 @@ describe("tests for /posts", () => {
     createdBlog = blog;
   });
 
-  it("should return 200 and empty array", async () => {
-    await request(app).get(RouterPath.posts).expect(200, []);
-  });
-
-  it("should return 404 if not existing entity", async () => {
-    await request(app).get(`${RouterPath.posts}/939`).expect(404);
-  });
-
   it("should create entity with correct data", async () => {
     const data: PostInputModel = {
       title: "Title",

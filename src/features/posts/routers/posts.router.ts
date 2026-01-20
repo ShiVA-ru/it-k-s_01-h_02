@@ -6,7 +6,7 @@ import { updatePostHandler } from "./handlers/updatePostHandler";
 import { deletePostHandler } from "./handlers/deletePostHandler";
 import { idValidation } from "../../../core/middlewares/params-id.validation-middleware";
 import { inputValidationResultMiddleware } from "../../../core/middlewares/input-validtion-result.middleware";
-import { blogInputDtoValidation } from "../validation/posts.input-dto.validation-middleware";
+import { postInputDtoValidation } from "../validation/posts.input-dto.validation-middleware";
 
 export const PostsRouter = Router();
 
@@ -17,7 +17,7 @@ PostsRouter
   .post(
     "/",
     idValidation,
-    blogInputDtoValidation,
+    postInputDtoValidation,
     inputValidationResultMiddleware,
     createPostHandler,
   )
@@ -29,7 +29,7 @@ PostsRouter
   .put(
     "/:id",
     idValidation,
-    blogInputDtoValidation,
+    postInputDtoValidation,
     inputValidationResultMiddleware,
     updatePostHandler,
   )

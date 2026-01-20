@@ -29,7 +29,7 @@ const blogIdValidation = body("blogId")
   .isLength({ min: 1, max: 100 })
   .withMessage("Field length must be between 1 and 100 characters");
 
-export const blogInputDtoValidation = [
+export const postInputDtoValidation = [
   titleValidation,
   shortDescriptionValidation,
   contentValidation,

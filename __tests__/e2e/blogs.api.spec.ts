@@ -6,7 +6,7 @@ import { BlogInputModel } from "../../src/features/blogs/models/BlogInputModel";
 import { BlogViewModel } from "../../src/features/blogs/models/BlogViewModel";
 import { RouterPath } from "../../src/core/constants";
 
-describe("tests for /blogs", () => {
+describe("api tests for /blogs", () => {
   let app: Express;
   let createdEntity1: BlogViewModel;
   let createdEntity2: BlogViewModel;
@@ -22,18 +22,6 @@ describe("tests for /blogs", () => {
 
   it("should return 404 if not existing entity", async () => {
     await request(app).get(`${RouterPath.blogs}/939`).expect(404);
-  });
-
-  it("shouldn't create entity with incorrect data", async () => {
-    const data: BlogInputModel = {
-      name: "",
-      description: "string",
-      websiteUrl: "https://www.rogaikopyta.com",
-    };
-
-    await blogsTestManager.createEntity(app, data, HttpStatus.BadRequest);
-
-    await request(app).get(RouterPath.blogs).expect(HttpStatus.Ok, []);
   });
 
   it("should create entity with correct data", async () => {
@@ -66,219 +54,27 @@ describe("tests for /blogs", () => {
       .expect(HttpStatus.Ok, [createdEntity1, createdEntity2]);
   });
 
-  it("shouldn't update entity with incorrect description length less than 1", async () => {
-    const data: BlogInputModel = {
-      name: "Name1",
-      description: "",
-      websiteUrl: "https://www.rogaikopyta.com",
-    };
-
+  it("should delete entity", async () => {
     await request(app)
-      .put(`${RouterPath.blogs}/${createdEntity1.id}`)
-      .send(data)
-      .expect(HttpStatus.BadRequest);
+      .delete(`${RouterPath.blogs}/${createdEntity1.id}`)
+      .expect(HttpStatus.NoContent);
 
     await request(app)
       .get(`${RouterPath.blogs}/${createdEntity1.id}`)
-      .expect(HttpStatus.Ok, createdEntity1);
-  });
-
-  it("shouldn't update entity with incorrect name length more than 15", async () => {
-    const data: BlogInputModel = {
-      name: "Name1Name1Name1Name1Name1",
-      description: "",
-      websiteUrl: "https://www.rogaikopyta.com",
-    };
+      .expect(HttpStatus.NotFound);
 
     await request(app)
-      .put(`${RouterPath.blogs}/${createdEntity1.id}`)
-      .send(data)
-      .expect(HttpStatus.BadRequest);
+      .get(`${RouterPath.blogs}/${createdEntity2.id}`)
+      .expect(HttpStatus.Ok, createdEntity2);
 
     await request(app)
-      .get(`${RouterPath.blogs}/${createdEntity1.id}`)
-      .expect(HttpStatus.Ok, createdEntity1);
+      .delete(`${RouterPath.blogs}/${createdEntity2.id}`)
+      .expect(HttpStatus.NoContent);
+
+    await request(app)
+      .get(`${RouterPath.blogs}/${createdEntity2.id}`)
+      .expect(HttpStatus.NotFound);
+
+    await request(app).get(RouterPath.blogs).expect(HttpStatus.Ok, []);
   });
-
-  // it("shouldn't update entity with incorrect author length less than 1", async () => {
-  //   const data: BlogInputModel = {
-  //     title: "video",
-  //     author: "",
-  //     canBeDownloaded: true,
-  //     minAgeRestriction: 12,
-  //     publicationDate: new Date().toISOString(),
-  //     availableResolutions: [VideoResolutions.P1080, VideoResolutions.P1440],
-  //   };
-
-  //   await request(app)
-  //     .put(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .send(data)
-  //     .expect(HttpStatus.BadRequest);
-
-  //   await request(app)
-  //     .get(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .expect(HttpStatus.Ok, createdEntity1);
-  // });
-
-  // it("shouldn't update entity with incorrect author length more than 20", async () => {
-  //   const data: BlogInputModel = {
-  //     title: "video",
-  //     author: "AuthorAuthorAuthorAuthor",
-  //     canBeDownloaded: true,
-  //     minAgeRestriction: 12,
-  //     publicationDate: new Date().toISOString(),
-  //     availableResolutions: [VideoResolutions.P1080, VideoResolutions.P1440],
-  //   };
-
-  //   await request(app)
-  //     .put(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .send(data)
-  //     .expect(HttpStatus.BadRequest);
-
-  //   await request(app)
-  //     .get(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .expect(HttpStatus.Ok, createdEntity1);
-  // });
-
-  // it("shouldn't update entity with incorrect minAgeRestriction less than 1", async () => {
-  //   const data: BlogInputModel = {
-  //     title: "video",
-  //     author: "Author",
-  //     canBeDownloaded: true,
-  //     minAgeRestriction: 0,
-  //     publicationDate: new Date().toISOString(),
-  //     availableResolutions: [VideoResolutions.P1080, VideoResolutions.P1440],
-  //   };
-
-  //   await request(app)
-  //     .put(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .send(data)
-  //     .expect(HttpStatus.BadRequest);
-
-  //   await request(app)
-  //     .get(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .expect(HttpStatus.Ok, createdEntity1);
-  // });
-
-  // it("shouldn't update entity with incorrect minAgeRestriction more than 18", async () => {
-  //   const data: BlogInputModel = {
-  //     title: "video",
-  //     author: "Author",
-  //     canBeDownloaded: true,
-  //     minAgeRestriction: 20,
-  //     publicationDate: new Date().toISOString(),
-  //     availableResolutions: [VideoResolutions.P1080, VideoResolutions.P1440],
-  //   };
-
-  //   await request(app)
-  //     .put(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .send(data)
-  //     .expect(HttpStatus.BadRequest);
-
-  //   await request(app)
-  //     .get(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .expect(HttpStatus.Ok, createdEntity1);
-  // });
-
-  // it("shouldn't update entity with incorrect publicationDate", async () => {
-  //   const data: BlogInputModel = {
-  //     title: "video",
-  //     author: "Author",
-  //     canBeDownloaded: true,
-  //     minAgeRestriction: 15,
-  //     publicationDate: "dfsdf",
-  //     availableResolutions: [VideoResolutions.P1080, VideoResolutions.P1440],
-  //   };
-
-  //   await request(app)
-  //     .put(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .send(data)
-  //     .expect(HttpStatus.BadRequest);
-
-  //   await request(app)
-  //     .get(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .expect(HttpStatus.Ok, createdEntity1);
-  // });
-
-  // it("shouldn't update entity with incorrect availableResolutions length less than 1", async () => {
-  //   const data: BlogInputModel = {
-  //     title: "video",
-  //     author: "Author",
-  //     canBeDownloaded: true,
-  //     minAgeRestriction: 15,
-  //     publicationDate: new Date().toISOString(),
-  //     availableResolutions: [],
-  //   };
-
-  //   await request(app)
-  //     .put(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .send(data)
-  //     .expect(HttpStatus.BadRequest);
-
-  //   await request(app)
-  //     .get(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .expect(HttpStatus.Ok, createdEntity1);
-  // });
-
-  // it("shouldn't update entity that not exist", async () => {
-  //   const data: BlogInputModel = {
-  //     title: "Title",
-  //     author: "New Author",
-  //     canBeDownloaded: true,
-  //     minAgeRestriction: 12,
-  //     publicationDate: new Date().toISOString(),
-  //     availableResolutions: [VideoResolutions.P1080, VideoResolutions.P1440],
-  //   };
-  //   await request(app)
-  //     .put(`${RouterPath.blogs}/123`)
-  //     .send(data)
-  //     .expect(HttpStatus.NotFound);
-  // });
-
-  // it("should update entity with correct input data", async () => {
-  //   const data: BlogInputModel = {
-  //     title: "Title",
-  //     author: "New Author",
-  //     canBeDownloaded: true,
-  //     minAgeRestriction: 12,
-  //     publicationDate: new Date().toISOString(),
-  //     availableResolutions: [VideoResolutions.P1080, VideoResolutions.P1440],
-  //   };
-  //   await request(app)
-  //     .put(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .send(data)
-  //     .expect(HttpStatus.NoContent);
-
-  //   await request(app)
-  //     .get(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .expect(HttpStatus.Ok, { ...createdEntity1, ...data });
-
-  //   await request(app)
-  //     .get(`${RouterPath.blogs}/${createdEntity2.id}`)
-  //     .expect(HttpStatus.Ok, createdEntity2);
-  // });
-
-  // it("should delete entity", async () => {
-  //   await request(app)
-  //     .delete(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .expect(HttpStatus.NoContent);
-
-  //   await request(app)
-  //     .get(`${RouterPath.blogs}/${createdEntity1.id}`)
-  //     .expect(HttpStatus.NotFound);
-
-  //   await request(app)
-  //     .get(`${RouterPath.blogs}/${createdEntity2.id}`)
-  //     .expect(HttpStatus.Ok, createdEntity2);
-
-  //   await request(app)
-  //     .delete(`${RouterPath.blogs}/${createdEntity2.id}`)
-  //     .expect(HttpStatus.NoContent);
-
-  //   await request(app)
-  //     .get(`${RouterPath.blogs}/${createdEntity2.id}`)
-  //     .expect(HttpStatus.NotFound);
-
-  //   await request(app).get(RouterPath.blogs).expect(HttpStatus.Ok, []);
-  // });
 });

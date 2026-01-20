@@ -25,8 +25,8 @@ blogsRouter
   .put(
     "/:id",
     idValidation,
-    inputValidationResultMiddleware,
     blogInputDtoValidation,
+    inputValidationResultMiddleware,
     updateBlogHandler,
   )
 
