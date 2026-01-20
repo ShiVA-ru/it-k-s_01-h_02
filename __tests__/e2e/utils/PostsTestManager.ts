@@ -6,8 +6,10 @@ import { HttpStatus } from "../../../src/core/types/http-statuses";
 import { HttpStatusType } from "../../../src/core/types/http-statuses";
 import { RouterPath } from "../../../src/core/constants";
 import { PostViewModel } from "../../../src/features/posts/models/PostViewModel";
+import { generateBasicAuthToken } from "./generate-admin-auth-token";
 
 export const postsTestManager = {
+  adminToken: generateBasicAuthToken(),
   initApp() {
     const app = express();
     setupApp(app);
@@ -22,6 +24,7 @@ export const postsTestManager = {
   ) {
     const response = await request(app)
       .post(RouterPath.posts)
+      .set("Authorization", this.adminToken)
       .send(data)
       .expect(expectedStatusCode);
 

@@ -5,8 +5,10 @@ import { BlogInputModel } from "../../../src/features/blogs/models/BlogInputMode
 import { HttpStatus } from "../../../src/core/types/http-statuses";
 import { HttpStatusType } from "../../../src/core/types/http-statuses";
 import { RouterPath } from "../../../src/core/constants";
+import { generateBasicAuthToken } from "./generate-admin-auth-token";
 
 export const blogsTestManager = {
+  adminToken: generateBasicAuthToken(),
   initApp() {
     const app = express();
     setupApp(app);
@@ -20,6 +22,7 @@ export const blogsTestManager = {
   ) {
     const response = await request(app)
       .post(RouterPath.blogs)
+      .set("Authorization", this.adminToken)
       .send(data)
       .expect(expectedStatusCode);
 

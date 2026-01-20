@@ -10,6 +10,7 @@ describe("api tests for /blogs", () => {
   let app: Express;
   let createdEntity1: BlogViewModel;
   let createdEntity2: BlogViewModel;
+  const adminToken = blogsTestManager.adminToken;
 
   beforeAll(async () => {
     app = blogsTestManager.initApp();
@@ -57,6 +58,7 @@ describe("api tests for /blogs", () => {
   it("should delete entity", async () => {
     await request(app)
       .delete(`${RouterPath.blogs}/${createdEntity1.id}`)
+      .set("Authorization", adminToken)
       .expect(HttpStatus.NoContent);
 
     await request(app)
@@ -69,6 +71,7 @@ describe("api tests for /blogs", () => {
 
     await request(app)
       .delete(`${RouterPath.blogs}/${createdEntity2.id}`)
+      .set("Authorization", adminToken)
       .expect(HttpStatus.NoContent);
 
     await request(app)

@@ -14,6 +14,7 @@ describe("tests for /posts", () => {
   let createdEntity1: PostViewModel | null = null;
   let createdEntity2: PostViewModel | null = null;
   let createdBlog: BlogViewModel;
+  const adminToken = postsTestManager.adminToken;
 
   beforeAll(async () => {
     app = postsTestManager.initApp();

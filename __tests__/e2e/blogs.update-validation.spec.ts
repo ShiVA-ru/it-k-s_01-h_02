@@ -10,6 +10,7 @@ describe("update tests for /blogs", () => {
   let app: Express;
   let createdEntity1: BlogViewModel;
   let createdEntity2: BlogViewModel;
+  const adminToken = blogsTestManager.adminToken;
   const data1: BlogInputModel = {
     name: "Name1",
     description: "string",
@@ -44,6 +45,7 @@ describe("update tests for /blogs", () => {
 
     await request(app)
       .put(`${RouterPath.blogs}/${createdEntity1.id}`)
+      .set("Authorization", adminToken)
       .send(data)
       .expect(HttpStatus.BadRequest);
 
@@ -61,6 +63,7 @@ describe("update tests for /blogs", () => {
 
     await request(app)
       .put(`${RouterPath.blogs}/${createdEntity1.id}`)
+      .set("Authorization", adminToken)
       .send(data)
       .expect(HttpStatus.BadRequest);
 
@@ -78,6 +81,7 @@ describe("update tests for /blogs", () => {
 
     await request(app)
       .put(`${RouterPath.blogs}/${createdEntity1.id}`)
+      .set("Authorization", adminToken)
       .send(data)
       .expect(HttpStatus.BadRequest);
 
