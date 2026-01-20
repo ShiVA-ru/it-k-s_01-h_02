@@ -16,7 +16,6 @@ PostsRouter
   //CREATE
   .post(
     "/",
-    idValidation,
     postInputDtoValidation,
     inputValidationResultMiddleware,
     createPostHandler,
